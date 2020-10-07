@@ -18,7 +18,7 @@ import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 
 public class MainActivity extends AppCompatActivity {
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         Interpreter interpreter = new Interpreter(mbb);
 
         /*Step 2 of 3: Prepare Input and Output*/
-        Drawable drawable = getResources().getDrawable(R.drawable.lizard224);
+        Drawable drawable = getResources().getDrawable(R.drawable.bee);
         Bitmap bitmap = ((BitmapDrawable)drawable).getBitmap(); //manually shaped to: 224 x 224 (32 bit)
         TensorImage tensorImage = TensorImage.fromBitmap(bitmap);
         TensorBuffer result = TensorBuffer.createFixedSize(interpreter.getOutputTensor(0).shape(),
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         ByteBuffer bbuff = result.getBuffer();
         for(int i = 0; i < bbuff.capacity(); i++) {
             if((bbuff.get(i) & 0xFF) > 0){
-                Log.v("MYTAG", "Class: " + i + ", Value: " + bbuff.get(i));
+                Log.v("MYTAG", "Class: " + i + ", Probability: " + (bbuff.get(i) & 0xFF)/255f);
             }
         }
 
